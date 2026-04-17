@@ -1,28 +1,20 @@
 class Solution(object):
     def reverse(self, x):
-        INT_MAX = 2**31-1
-        INT_MIN = -2**31
+        INT_MAX = 2**31 - 1   # max 32-bit int
 
-        sign = 0
-        if x < 0:
-            sign = -1
-        else:
-            sign = 1
+        sign = -1 if x < 0 else 1   # store sign
+        x = abs(x)                  # work with positive
 
-        answer = 0
-        x = abs(x)
+        rev = 0
 
+        while x:
+            rev = rev * 10 + x % 10   # shift + add last digit
+            x //= 10                  # remove last digit
 
-        while(x != 0):
-            temp = x%10
-            answer  = (answer*10)+temp
-            x = x//10
-        
+        rev *= sign   # restore sign
 
-
-        if answer>INT_MAX or answer<INT_MIN:
+        # check 32-bit range
+        if rev < -2**31 or rev > INT_MAX:
             return 0
-        else:
-            answer = answer*sign
-            return answer    
-        
+
+        return rev
