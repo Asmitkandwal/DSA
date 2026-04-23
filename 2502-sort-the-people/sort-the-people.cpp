@@ -2,26 +2,27 @@ class Solution {
 public:
     vector<string> sortPeople(vector<string>& names, vector<int>& heights) {
 
-        unordered_map<int, string> mpp;
+        int n = heights.size();
 
-        // Store mapping: height -> corresponding name
-        for (int i = 0; i < heights.size(); i++) {
-            mpp[heights[i]] = names[i];
+        // Place correct tallest person at each position
+        for (int i = 0; i < n; i++) {
+
+            int maxIndex = i;
+
+            // Find tallest person from remaining unsorted part
+            for (int j = i + 1; j < n; j++) {
+                if (heights[j] > heights[maxIndex]) {
+                    maxIndex = j;
+                }
+            }
+
+            // Put tallest height at current position
+            swap(heights[i], heights[maxIndex]);
+
+            // Swap name too, so mapping stays correct
+            swap(names[i], names[maxIndex]);
         }
 
-        // Sort heights in increasing order first
-        sort(heights.begin(), heights.end());
-
-        // Reverse to get tallest to shortest order
-        reverse(heights.begin(), heights.end());
-
-        vector<string> new_names;
-
-        // Use sorted heights to fetch names in required order
-        for (int i = 0; i < heights.size(); i++) {
-            new_names.push_back(mpp[heights[i]]);
-        }
-
-        return new_names;
+        return names;
     }
 };
