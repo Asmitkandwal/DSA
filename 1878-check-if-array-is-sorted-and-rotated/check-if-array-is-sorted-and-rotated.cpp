@@ -1,30 +1,16 @@
 class Solution {
 public:
-
-    bool is_rotated(vector<int>&arr){
-        for(int i = 0;i<arr.size()-1;i++){
-            if(arr[i]>arr[i+1]) return false;
-        }
-        return true;
-    }
-
     bool check(vector<int>& nums) {
         int n = nums.size();
-        for(int shift = 0;shift<n;shift++){
+        int count = 0;
 
-            vector<int> rotated;
-            
-            for(int i = 0;i<n;i++){
-                int idx = (i+shift)%n;
-                rotated.push_back(nums[idx]);
+        for(int i = 0;i<n;i++){
+            int idx = (i+1)%n;
+            if(nums[i] > nums[idx]){
+                count++;
             }
-
-            if(is_rotated(rotated)) {
-                return true;
-            }    
-
         }
 
-        return false;
+        return count<=1;
     }
 };
