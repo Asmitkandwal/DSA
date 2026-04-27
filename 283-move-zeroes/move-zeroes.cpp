@@ -1,28 +1,22 @@
 class Solution {
 public:
     void moveZeroes(vector<int>& nums) {
-
-        vector<int> temp;
-        int c = 0;
-        int n = nums.size();
-
-        for (int i = 0; i < n; i++) {
-
-            // Keep non-zero elements in same relative order
-            if (nums[i] != 0)
-                temp.push_back(nums[i]);
-
-            // Count zeros to place later at end
-            else
-                c++;
+        int j = -1;
+        int n= nums.size();
+        for(int i = 0;i<n;i++){
+            if(nums[i] == 0){
+                j = i;
+                break;
+            }
         }
 
-        // Append all counted zeros at the end
-        for (int i = 0; i < c; i++) {
-            temp.push_back(0);
-        }
+        if(j==-1) return;
 
-        // Replace original array with required arrangement
-        nums = temp;
+        for(int i = j+1;i<n;i++){
+            if(nums[i] != 0){
+                swap(nums[i],nums[j]);
+                j++;
+            }
+        }
     }
 };
