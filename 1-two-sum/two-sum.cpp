@@ -1,22 +1,15 @@
-// BRUTE FORCE APPROACH
-
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-
-        // Try every possible pair
-        for (int i = 0; i < nums.size(); i++) {
-
-            // Start from i+1 to avoid using same element twice
-            for (int j = i + 1; j < nums.size(); j++) {
-
-                // Pair found whose sum equals target
-                if (nums[i] + nums[j] == target)
-                    return {i, j};
+        map<int,int>mpp;
+        for(int i = 0;i<nums.size();i++){
+            int value = nums[i];
+            int need_more = target - value;
+            if(mpp.find(need_more) != mpp.end()){
+                return{mpp[need_more],i};
             }
+            mpp[value] = i;
         }
-
-        // No valid pair found
-        return {-1, -1};
+        return{-1,-1};
     }
 };
