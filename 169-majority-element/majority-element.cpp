@@ -1,19 +1,15 @@
-//BRUTE FORCE
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
+        map<int,int> mpp;
         int n = nums.size();
-        for(int i  = 0;i<n;i++){
-            int count = 0;
-            int element = nums[i];
-            for(int j = 0;j<n;j++){
-                if (element == nums[j]){
-                    count++;
-                }
-            }
+        for(int i = 0;i<n;i++){
+            mpp[nums[i]]++;
+        }
 
-            if(count > (n/2)){
-                return element;
+        for(auto i : mpp){
+            if(i.second > (n/2) ){
+                return i.first;
             }
         }
 
