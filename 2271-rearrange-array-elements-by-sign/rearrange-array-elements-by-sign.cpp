@@ -15,17 +15,9 @@ public:
         }
 
         int n = nums.size();
-        int posi = 0;
-        int nega = 0;
-        for(int i = 0;i<n;i++){
-            if(i%2==0){
-            nums[i] = positive[posi];
-            posi++;
-            }
-            else if(i%2 != 0) {
-                nums[i] = negative[nega];
-                nega++;
-            }
+        for(int i = 0;i<n/2;i++){
+            nums[i*2] = positive[i];
+            nums[(i*2)+1] = negative[i];
         }
 
         return nums;
