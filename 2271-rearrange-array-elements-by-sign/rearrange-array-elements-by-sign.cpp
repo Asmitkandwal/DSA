@@ -7,7 +7,7 @@ public:
         vector<int> positive;
         vector<int> negative;
 
-        // Separate positive and negative numbers
+        // Store positives and negatives separately
         for (int i = 0; i < nums.size(); i++) {
 
             if (nums[i] > 0) {
@@ -21,8 +21,8 @@ public:
 
         int n = nums.size();
 
-        // Place positives at even indexes
-        // and negatives at odd indexes
+        // Fill even indexes with positive numbers
+        // and odd indexes with negative numbers
         for (int i = 0; i < n / 2; i++) {
 
             nums[i * 2] = positive[i];
