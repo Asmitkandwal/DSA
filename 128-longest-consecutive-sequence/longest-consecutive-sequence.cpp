@@ -1,45 +1,19 @@
-// BETTER APPROACH
-
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-
-        // Sorting helps bring consecutive numbers together
-        sort(nums.begin(), nums.end());
-
         int longest = 0;
+        unordered_set<int> st(nums.begin(),nums.end());
+        for(int i : st){
+            if(st.find(i-1) == st.end()){
+                int current = i;
+                int count = 1;
 
-        int lastsmall = INT_MIN; // stores previous element in sequence
-
-        int count = 0;
-
-        int n = nums.size();
-
-        for (int i = 0; i < n; i++) {
-
-            // Current number continues consecutive sequence
-            if (nums[i] - 1 == lastsmall) {
-
-                count++;
-
-                lastsmall = nums[i];
+                while(st.find(current +1) != st.end()){
+                    current += 1;
+                    count += 1;
+                }
+                longest = max(longest,count);
             }
-
-            // Skip duplicates so sequence count is not affected
-            else if (nums[i] == lastsmall) {
-                continue;
-            }
-
-            // Sequence breaks, start new sequence
-            else {
-
-                count = 1;
-
-                lastsmall = nums[i];
-            }
-
-            // Store maximum sequence length found so far
-            longest = max(longest, count);
         }
 
         return longest;
