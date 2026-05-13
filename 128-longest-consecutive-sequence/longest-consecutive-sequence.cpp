@@ -1,18 +1,34 @@
+// OPTIMAL APPROACH USING HASH SET
+
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
+
         int longest = 0;
-        unordered_set<int> st(nums.begin(),nums.end());
-        for(int i : st){
-            if(st.find(i-1) == st.end()){
+
+        // Store all elements for O(1) lookup
+        unordered_set<int> st(nums.begin(), nums.end());
+
+        for (int i : st) {
+
+            // Start counting only if current number
+            // is the beginning of a sequence
+            if (st.find(i - 1) == st.end()) {
+
                 int current = i;
+
                 int count = 1;
 
-                while(st.find(current +1) != st.end()){
+                // Extend sequence while next consecutive number exists
+                while (st.find(current + 1) != st.end()) {
+
                     current += 1;
+
                     count += 1;
                 }
-                longest = max(longest,count);
+
+                // Store longest sequence length found
+                longest = max(longest, count);
             }
         }
 
