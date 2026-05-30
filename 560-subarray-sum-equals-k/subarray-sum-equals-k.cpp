@@ -1,34 +1,25 @@
-// OPTIMAL APPROACH (PREFIX SUM + HASH MAP)
-
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-
         int sum = 0, count = 0;
-        int n = nums.size();
-
         unordered_map<int, int> PrefixSum;
 
-        // Handles case when subarray starting from index 0 has sum k
+        // A prefix sum of 0 is considered to have occurred once.
+        // This helps count subarrays that start from index 0.
         PrefixSum[0] = 1;
 
-        for (int i = 0; i < n; i++) {
+        for (int num : nums) {
+            sum += num;
 
-            // Running prefix sum till current index
-            sum += nums[i];
-
-            // If a previous prefix sum of (sum - k) exists,
-            // then subarray between those positions has sum k
-            int val = sum - k;
-
-            if (PrefixSum.find(val) != PrefixSum.end()) {
-
-                // Add all occurrences because multiple prefix sums
-                // can generate valid subarrays
-                count = count + PrefixSum[val];
+            // If (sum - k) exists, it means there is a previous
+            // prefix sum such that the subarray between them sums to k.
+            if (PrefixSum.find(sum - k) != PrefixSum.end()) {
+                // Add all occurrences because the same prefix sum
+                // may have appeared multiple times.
+                count += PrefixSum[sum - k];
             }
 
-            // Store current prefix sum frequency
+            // Store current prefix sum for future subarrays
             PrefixSum[sum]++;
         }
 
