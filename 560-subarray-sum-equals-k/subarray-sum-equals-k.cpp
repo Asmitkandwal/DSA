@@ -1,28 +1,21 @@
-// BRUTE FORCE APPROACH
-
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-
+        int sum = 0 , count = 0;
         int n = nums.size();
-        int count = 0;
 
-        // Consider every index as starting point of a subarray
-        for (int i = 0; i < n; i++) {
+        unordered_map<int,int> PrefixSum;
+        PrefixSum[0] =1;
 
-            int sum = 0;
+        for(int i = 0;i<n;i++){
+            sum += nums[i];
 
-            // Extend subarray one element at a time
-            for (int j = i; j < n; j++) {
-
-                sum += nums[j];
-
-                // If current subarray sum equals k,
-                // we found one valid subarray
-                if (sum == k) {
-                    count++;
-                }
+            int val = sum-k;
+            if(PrefixSum.find(val) != PrefixSum.end()){
+                count = count + PrefixSum[val];
             }
+            
+            PrefixSum[sum]++;
         }
 
         return count;
