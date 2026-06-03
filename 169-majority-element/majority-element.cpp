@@ -1,25 +1,25 @@
-// BETTER APPROACH USING HASH MAP
-
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
+        int count = 0;
+        int candidate = 0;
 
-        map<int, int> mpp;
-        int n = nums.size();
-
-        // Store frequency of each element
-        for (int i = 0; i < n; i++) {
-            mpp[nums[i]]++;
-        }
-
-        // Find element appearing more than n/2 times
-        for (auto i : mpp) {
-
-            if (i.second > (n / 2)) {
-                return i.first;
+        // Phase 1: Find the majority candidate
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+            
+            if (num == candidate) {
+                count++;
+            } else {
+                count--;
             }
         }
 
-        return -1;
+        // Note: The problem description typically guarantees that a majority 
+        // element always exists. If it doesn't, a second pass would be 
+        // required to verify that the candidate appears > n/2 times.
+        return candidate;
     }
 };
