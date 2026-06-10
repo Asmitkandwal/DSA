@@ -2,44 +2,43 @@ class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
         int n = nums.size();
-        // A set to automatically store unique quadruplets and remove duplicates
-        set<vector<int>> st;
+        vector<vector<int>> ans;
+        sort(nums.begin(),nums.end());
+        for(int i = 0;i<n;i++){
+            if(i>0 && nums[i] == nums[i-1]) continue;
 
-        // Loop 1: Fixes the first number
-        for(int i = 0; i < n; i++){
-            // Loop 2: Fixes the second number
-            for(int j = i + 1; j < n; j++){
-                
-                // This hashset tracks numbers that sit between index 'j' and index 'k'
-                // Using 'long long' prevents any integer overflow bugs
-                unordered_set<long long> hashset;
-                
-                // Loop 3: Fixes the third number
-                for(int k = j + 1; k < n; k++){
-                    // Calculate the sum of the first three picked numbers
-                    long long sum = (long long)nums[i] + nums[j] + nums[k];
+            for(int j = i+1;j<n;j++){
+                if(j-i > 1 && nums[j] == nums[j-1]) continue;
+
+                int k = j+1;
+                int l = n-1;
+
+                while(k<l){
+                long long sum = (long long )nums[i]+nums[j]+nums[k]+nums[l];
+                if(sum == target){
+                    vector<int> temp = {nums[i],nums[j],nums[k],nums[l]};
+                    sort(temp.begin(),temp.end());
+                    ans.push_back(temp);
+
+                    k++;
+                    l--;
+
+                    while(k<l && nums[k] == nums[k-1]) k++;
+                    while(k<l && nums[l] == nums[l+1]) l--;
+
                     
-                    // Find what value the 4th number needs to be to hit the target
-                    long long fourth = (long long)target - sum;
-                    
-                    // Convert it back to a normal integer for our final answer container
-                    int new_fourth = (int)fourth;
-                    
-                    // If that 4th required number is found inside our lookup hashset, we have a match!
-                    if(hashset.find(fourth) != hashset.end()){
-                        vector<int> temp = {nums[i], nums[j], nums[k], new_fourth};
-                        sort(temp.begin(), temp.end()); // Sort so the outer 'set' can identify duplicates
-                        st.insert(temp);
-                    }
-                    
-                    // Put the current number into the hashset for subsequent loop iterations
-                    hashset.insert(nums[k]);
+                }
+                else if(sum > target){
+                    l--;
+                }
+                else{
+                    k++;
                 }
             }
-        }
+            }
 
-        // Convert our unique set of answers back into a standard 2D vector to return it
-        vector<vector<int>> ans(st.begin(), st.end());
+
+        }
         return ans;
     }
 };
