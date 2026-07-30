@@ -1,21 +1,19 @@
-// BINARY SEARCH ON ANSWER
+// BINARY SEARCH ON ANSWER PATTERN
 
 class Solution {
 public:
 
-    // Returns the total hours needed if Koko
-    // eats 'mid' bananas every hour.
+    // Helper function: Calculates total hours Koko needs if she eats 'mid' bananas per hour
     long long cal_hours(vector<int>& piles, int mid) {
 
         long long total_hours = 0;
 
         for (int bananas : piles) {
-
-            // Ceiling division:
-            // Even a partially finished pile takes one full hour.
-            // (a + b - 1) / b computes ceil(a / b) using only integers.
+            // INTEGER CEILING DIVISION:
+            // Math trick for ceil(bananas / mid) without slow float math:
+            // Example: 7 bananas at speed 3 -> (7 + 3 - 1) / 3 = 9 / 3 = 3 hours.
+            // '- 1LL' prevents integer overflow if (bananas + mid) is huge.
             total_hours += (bananas + mid - 1LL) / mid;
-            //total_hours += ceil((double)bananas / (double)mid); {works same as above}
         }
 
         return total_hours;
@@ -23,35 +21,24 @@ public:
 
     int minEatingSpeed(vector<int>& piles, int h) {
 
-        // Minimum possible eating speed.
-        int low = 1;
-
-        // Maximum useful eating speed.
-        // Any speed greater than the largest pile
-        // behaves exactly the same.
-        int high = *max_element(piles.begin(), piles.end());
+        // Range of possible eating speeds:
+        int low = 1;                                         // Slowest speed (1 banana/hr)
+        int high = *max_element(piles.begin(), piles.end()); // Fastest speed needed (largest pile)
 
         int ans = high;
 
-        // Search for the minimum speed that
-        // finishes all bananas within h hours.
+        // Binary search to find the absolute minimum working speed
         while (low <= high) {
 
             int mid = low + (high - low) / 2;
 
-            // Current speed works.
-            // Save it and check if an even slower
-            // speed is also sufficient.
-            long long total_hours = cal_hours(piles, mid);
-            if ( total_hours <= h) {
-                ans = mid;
-                high = mid - 1;
-            }
-
-            // Current speed is too slow.
-            // Increase the eating speed.
+            // TEST SPEED 'mid':
+            if (cal_hours(piles, mid) <= h) {
+                ans = mid;       // Speed 'mid' works! Save it as a valid answer.
+                high = mid - 1;  // Try to find an even slower speed on the left side.
+            } 
             else {
-                low = mid + 1;
+                low = mid + 1;   // Speed 'mid' is too slow! Try a faster speed on the right side.
             }
         }
 
