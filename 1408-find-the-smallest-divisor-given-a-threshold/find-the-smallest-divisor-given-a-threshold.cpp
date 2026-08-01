@@ -9,7 +9,8 @@ public:
             int temp = 0;
             int mid = low +(high-low)/2;
             for(int i = 0;i<nums.size();i++){
-                temp += ceil((double)nums[i]/(double)mid);
+                int value = ceil((double)nums[i]/(double)mid);
+                temp += value;
             }
             
 
