@@ -1,19 +1,34 @@
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int n = matrix.size();
-        int m = matrix[0].size();
-        int row = 0, col = m-1;
-        while(row < n && col >= 0){
-            if(matrix[row][col] == target) {
+        int n = matrix.size();    // Total rows
+        int m = matrix[0].size(); // Total columns
+
+        // Start at the TOP-RIGHT corner (row 0, last column)
+        int row = 0;
+        int col = m - 1;
+
+        // Stay within matrix boundaries
+        while (row < n && col >= 0) {
+            
+            // TARGET FOUND
+            if (matrix[row][col] == target) {
                 return true;
-            }else if(matrix[row][col] < target){
+            } 
+            // CURRENT NUMBER TOO SMALL:
+            // All numbers to the left in this row are even smaller.
+            // Move DOWN to the next row to find bigger numbers.
+            else if (matrix[row][col] < target) {
                 row++;
-            }else{
+            } 
+            // CURRENT NUMBER TOO BIG:
+            // All numbers below in this column are even bigger.
+            // Move LEFT to the previous column to find smaller numbers.
+            else {
                 col--;
             }
         }
 
-        return false;
+        return false; // Target not present in matrix
     }
 };
