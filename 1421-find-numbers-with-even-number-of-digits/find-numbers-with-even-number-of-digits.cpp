@@ -1,14 +1,14 @@
 class Solution {
 public:
     int findNumbers(vector<int>& nums) {
-        int val = 0; // Counter for numbers with an even number of digits
-        
-        for (int i = 0; i < nums.size(); i++) {
-            // Convert the integer into a string to inspect character length
-            string str = to_string(nums[i]);
-            
-            // Check if the total digit count (string length) is even
-            if (str.length() % 2 == 0) {
+        int val = 0; 
+        for(int i = 0;i<nums.size();i++){
+            long long k = 0;
+            while(nums[i] != 0){
+                nums[i] = nums[i]/10;
+                k++;
+            }
+            if(k%2 == 0) {
                 val++;
             }
         }
