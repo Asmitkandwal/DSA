@@ -1,25 +1,40 @@
+//OPTIMAL APPROACH
+
 class Solution {
 public:
     string frequencySort(string s) {
-        unordered_map<char,int> mpp;
-        string ans = "";
-        vector<pair<char,int>> freq;
-        for(int i = 0;i<s.length();i++){
-            mpp[s[i]]++;
-        }
-        for(auto it:mpp){
-            freq.push_back({it.first,it.second});
-        }
-        
-        sort(freq.begin(), freq.end(), [](auto a, auto b) {
-        return a.second > b.second;
-        });
 
-        for(auto it : freq){
-            for(int i = 0;i<it.second;i++){
-                ans += it.first;
+        unordered_map<char, int> mp;
+
+        // Count frequency
+        for(char c : s) {
+            mp[c]++;
+        }
+
+        // Create buckets
+        vector<vector<char>> bucket(s.size() + 1);
+
+        // Put each character into its frequency bucket
+        for(auto it : mp) {
+            char c = it.first;
+            int freq = it.second;
+
+            bucket[freq].push_back(c);
+        }
+
+        string ans = "";
+
+        // Start from highest frequency
+        for(int freq = s.size(); freq >= 1; freq--) {
+
+            for(char c : bucket[freq]) {
+
+                for(int i = 0; i < freq; i++) {
+                    ans += c;
+                }
             }
         }
+
         return ans;
     }
 };
