@@ -4,16 +4,19 @@ public:
         int ans = 0;
         int n = s.length();
         for(int i = 0;i<n;i++){
-            unordered_map<char,int>mpp;
+            int freq[26] = {0};
             
             for(int j = i;j<n;j++){
-                mpp[s[j]]++;
+                freq[s[j] - 'a']++;
                 int maxval = -1;
                 int minval = INT_MAX;
-                
-                for(auto it : mpp){
-                    maxval = max(maxval , it.second);
-                    minval = min(minval , it.second);
+
+
+                for(auto it : freq){
+                    if(it>0){
+                    maxval = max(maxval , it);
+                    minval = min(minval , it);
+                    }
                 }
                 ans += maxval-minval;
             }
